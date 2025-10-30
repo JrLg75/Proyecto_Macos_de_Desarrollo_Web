@@ -1,0 +1,211 @@
+/* Estilos Básicos del Chatbot */
+.chatbot-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    font-family: Arial, sans-serif;
+}
+
+/* Botón de Activación */
+.chatbot-toggle-btn {
+    background-color: #007bff; /* Color Primario de la Marca (Azul) */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.chatbot-toggle-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Ventana Principal del Chat */
+.chatbot-window {
+    width: 350px;
+    height: 500px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: none; /* Inicialmente oculto */
+    flex-direction: column;
+    position: absolute; /* Para que se posicione correctamente sobre la página */
+    bottom: 80px; /* Espacio sobre el botón de toggle */
+    right: 0;
+}
+
+/* Encabezado */
+.chatbot-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+.chatbot-info {
+    display: flex;
+    align-items: center;
+}
+
+.chatbot-avatar {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.chatbot-title {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.chatbot-controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.chatbot-controls button:hover {
+    opacity: 1;
+}
+
+/* Cuerpo del Chat (Scrollable) */
+.chatbot-body {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+/* Estilos de Mensajes */
+.message {
+    max-width: 80%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 15px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: #e0e0e0;
+    margin-left: auto; /* Alinea a la derecha */
+    border-bottom-right-radius: 3px;
+}
+
+.ai-message {
+    background-color: #d1e7ff; /* Tono de azul claro */
+    margin-right: auto; /* Alinea a la izquierda */
+    border-bottom-left-radius: 3px;
+}
+
+/* Quick Replies */
+.quick-replies {
+    margin-top: 10px;
+}
+
+.quick-reply-btn {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.2s;
+}
+
+.quick-reply-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Input Container */
+.chatbot-input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #e0e0e0;
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+#userInput {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.send-btn {
+    background-color: #28a745; /* Botón de Enviar (Verde) */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.send-btn:hover {
+    background-color: #1e7e34;
+}
+
+/* Estilos para las Tarjetas de Producto (Respuesta de la IA) */
+.product-card-in-chat {
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-in-chat img {
+    max-width: 50px;
+    max-height: 50px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.product-info {
+    flex-grow: 1;
+}
+
+.product-actions-chat {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-actions-chat button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.details-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.add-to-cart-btn-chat {
+    background-color: #ffc107; /* Amarillo para Carrito */
+    color: black;
+    font-weight: bold;
+}

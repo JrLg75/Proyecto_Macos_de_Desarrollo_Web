@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard de Sentimiento - TechZone Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100"> <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" th:href="@{/admin/dashboard}">
+            <i class="fa-solid fa-shield-halved me-2"></i> TechZone Admin
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/productos}">
+                        <i class="fa-solid fa-box-open me-1"></i> Productos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/pedidos}">
+                        <i class="fa-solid fa-receipt me-1"></i> Pedidos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/usuarios}">
+                        <i class="fa-solid fa-users me-1"></i> Usuarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/admin/sentimiento}">
+                        <i class="fa-solid fa-chart-pie me-1"></i> Sentimiento
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}" target="_blank"><i class="fa-solid fa-eye me-1"></i> Ver Sitio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket me-1"></i> Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-4 flex-grow-1"> <h1 class="mb-4"><i class="fa-solid fa-chart-pie me-2"></i>Dashboard de Análisis de Sentimiento</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-bg-primary shadow-sm border-0 mb-3">
+                <div class="card-header"><i class="fa-solid fa-list-check me-1"></i> Total Analizadas</div>
+                <div class="card-body text-center">
+                    <h2 class="card-title display-5 fw-bold" th:text="${stats.totalAnalizados()}">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-success shadow-sm border-0 mb-3">
+                <div class="card-header"><i class="fa-solid fa-face-smile me-1"></i> Positivas</div>
+                <div class="card-body text-center">
+                    <h2 class="card-title display-5 fw-bold" th:text="${stats.positivos()}">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-danger shadow-sm border-0 mb-3">
+                <div class="card-header"><i class="fa-solid fa-face-frown me-1"></i> Negativas</div>
+                <div class="card-body text-center">
+                    <h2 class="card-title display-5 fw-bold" th:text="${stats.negativos()}">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-secondary shadow-sm border-0 mb-3">
+                <div class="card-header"><i class="fa-solid fa-face-meh me-1"></i> Neutrales</div>
+                <div class="card-body text-center">
+                    <h2 class="card-title display-5 fw-bold" th:text="${stats.neutrales()}">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2"> <div class="card shadow-sm border-0">
+            <div class="card-header bg-white fw-bold">
+                <i class="fa-solid fa-chart-pie me-1"></i> Distribución de Sentimientos
+            </div>
+            <div class="card-body" style="min-height: 400px;"> <canvas id="graficoSentimientos"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-white-50 text-center py-3 mt-5"> <div class="container">
+    <small>© Copyright TechZone 2025. Panel de Administración.</small>
+</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const ctx = document.getElementById('graficoSentimientos');
+    const statsData = /*[[${stats}]]*/ {}; // Obtiene los datos del modelo
+
+    if (ctx && statsData) {
+        new Chart(ctx, {
+            type: 'pie', // Tipo de gráfico: pastel
+            data: {
+                labels: ['Positivas 👍', 'Negativas 👎', 'Neutrales 😐'], // Etiquetas con emojis
+                datasets: [{
+                    label: 'Número de Reseñas',
+                    data: [
+                        statsData.positivos || 0, // Asegura que sea 0 si es null/undefined
+                        statsData.negativos || 0,
+                        statsData.neutrales || 0
+                    ],
+                    backgroundColor: [
+                        'rgba(40, 167, 69, 0.7)',  // Verde Bootstrap Success
+                        'rgba(220, 53, 69, 0.7)',   // Rojo Bootstrap Danger
+                        'rgba(108, 117, 125, 0.7)'  // Gris Bootstrap Secondary
+                    ],
+                    borderColor: [
+                        'rgb(40, 167, 69)',
+                        'rgb(220, 53, 69)',
+                        'rgb(108, 117, 125)'
+                    ],
+                    borderWidth: 1,
+                    hoverOffset: 8 // Efecto al pasar el mouse
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Permite ajustar mejor la altura
+                plugins: {
+                    legend: {
+                        position: 'top', // Posición de la leyenda
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        console.error("No se pudo encontrar el canvas o los datos para el gráfico.");
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

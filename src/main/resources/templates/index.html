@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TechZone Perú - Tu tienda de tecnología favorita">
+    <title>TechZone Perú - Inicio</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+    <link rel="stylesheet" th:href="@{/css/inicioEstilo.css}">
+    <link rel="stylesheet" th:href="@{/css/EstiloChatbot.css}">
+</head>
+<body>
+
+<div class="bg-dark text-white text-center py-2 top-banner">
+    Rebajas de primavera y envío exprés gratuito ¡50% de descuento!
+    <a th:href="@{/productos}" class="text-white fw-bold text-decoration-none">Comprar Ahora</a>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a class="navbar-brand fw-bold fs-4" th:href="@{/}" aria-label="TechZone - Ir a inicio">TechZone</a>
+
+        <div class="nav-icons-mobile d-flex d-lg-none align-items-center ms-auto">
+            <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+            <a th:href="@{/carrito}" aria-label="Carrito de compras"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
+
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/nosotros}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/registro}">Regístrate</a></li>
+            </ul>
+
+            <form class="d-flex search-form ms-3 me-3" role="search" th:action="@{/buscar}" method="get">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="¿Qué estás buscando?" aria-label="¿Qué estás buscando?">
+                    <button class="btn btn-outline-secondary" type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+
+            <div class="nav-icons d-none d-lg-flex align-items-center">
+                <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+                <a th:href="@{/carrito}" aria-label="Carrito de compras"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container my-5">
+    <div class="row">
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="category-menu-wrapper">
+                <ul class="list-group category-menu">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" th:each="categoria : ${categorias}">
+                        <a th:href="@{/productos/categoria/{id}(id=${categoria.id})}" class="text-decoration-none text-dark" th:text="${categoria.nombre}">Nombre Categoría</a>
+                        <i class="fas fa-chevron-right ms-auto"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div id="heroCarousel" class="carousel slide hero-section" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner h-100">
+                    <div class="carousel-item active h-100">
+                        <div class="d-flex h-100 align-items-center justify-content-between px-5">
+                            <div class="hero-text">
+                                <p class="mb-2">iPhone 14 Series</p>
+                                <h1 class="display-5 fw-bold mb-3">Hasta 10% de<br>Descuento</h1>
+                                <a th:href="@{/productos}" class="btn btn-outline-light rounded-pill px-4 py-2 mt-3">Comprar Ahora <i class="fas fa-arrow-right ms-2"></i></a>
+                            </div>
+                            <div class="hero-img-container">
+                                <img th:src="@{/img/Ihone 14 Pro And Max.png}" class="d-block hero-img" alt="iPhone 14 Pro Max" style="max-height: 300px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item h-100">
+                        <div class="d-flex h-100 align-items-center justify-content-between px-5">
+                            <div class="hero-text">
+                                <p class="mb-2">Nuevos Accesorios</p>
+                                <h1 class="display-5 fw-bold mb-3">Gaming Gears<br>al Mejor Precio</h1>
+                                <a th:href="@{/productos}" class="btn btn-outline-light rounded-pill px-4 py-2 mt-3">Ver Productos <i class="fas fa-arrow-right ms-2"></i></a>
+                            </div>
+                            <div class="hero-img-container">
+                                <img th:src="@{/img/AuricularesGamerT.png}" class="d-block hero-img" alt="Gaming Gear" style="max-height: 300px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <div class="d-flex align-items-end mb-4">
+            <div class="flash-sales-header">
+                <p class="text-danger fw-bold mb-0">Hoy</p>
+                <h2 class="h3 fw-bold mb-0">Ventas Flash</h2>
+            </div>
+            <div class="d-flex align-items-center ms-5">
+                <div class="text-center flash-timer-box">
+                    <span id="days" class="fw-bold">00</span>
+                    <span class="flash-timer-label">Días</span>
+                </div>
+                <span class="mx-1 fs-3 fw-bold text-danger">:</span>
+                <div class="text-center flash-timer-box">
+                    <span id="hours" class="fw-bold">00</span>
+                    <span class="flash-timer-label">Horas</span>
+                </div>
+                <span class="mx-1 fs-3 fw-bold text-danger">:</span>
+                <div class="text-center flash-timer-box">
+                    <span id="minutes" class="fw-bold">00</span>
+                    <span class="flash-timer-label">Min</span>
+                </div>
+                <span class="mx-1 fs-3 fw-bold text-danger">:</span>
+                <div class="text-center flash-timer-box">
+                    <span id="seconds" class="fw-bold">00</span>
+                    <span class="flash-timer-label">Seg</span>
+                </div>
+            </div>
+            <div class="ms-auto">
+                <button class="btn btn-light rounded-circle p-2 me-2" aria-label="Anterior"><i class="fas fa-arrow-left"></i></button>
+                <button class="btn btn-light rounded-circle p-2" aria-label="Siguiente"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+            <div class="col" th:each="producto : ${productosFlash}">
+                <div class="card product-card" th:attr="data-id=${producto.id}">
+                    <div class="product-card-img-top-wrapper">
+                        <img th:if="${!#lists.isEmpty(producto.variants) && producto.variants[0].imagenPrincipalUrl != null}"
+                             th:src="@{/uploads/{filename}(filename=${producto.variants[0].imagenPrincipalUrl})}"
+                             class="card-img-top product-card-img-top" th:alt="${producto.nombre}">
+                        <img th:if="${#lists.isEmpty(producto.variants) || producto.variants[0].imagenPrincipalUrl == null}"
+                             th:src="@{/img/placeholder.png}"
+                             class="card-img-top product-card-img-top" th:alt="${producto.nombre}">
+
+                        <span class="badge bg-danger" th:if="${!#lists.isEmpty(producto.variants) && producto.variants[0].descuentoActivo}" th:text="'-' + ${producto.variants[0].porcentajeDescuento} + '%'">-X%</span>
+
+                        <div class="product-card-actions">
+                            <a href="#" class="text-dark bg-white rounded-circle p-2 d-block mb-2" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+                        </div>
+                        <button class="btn-add-to-cart" onclick="addToCart(event)">Añadir al Carrito</button>
+                    </div>
+                    <div class="card-body product-card-body">
+                        <h5 class="card-title fw-medium" th:text="${producto.nombre}">Nombre del Producto</h5>
+                        <p class="card-text" th:if="${!#lists.isEmpty(producto.variants)}">
+                            <span class="text-danger fw-bold" th:text="${#numbers.formatCurrency(producto.variants[0].precio)}">$0.00</span>
+                            <span th:if="${producto.variants[0].descuentoActivo}" class="text-muted text-decoration-line-through ms-2" th:text="${#numbers.formatCurrency(producto.variants[0].precioOriginal)}">$0.00</span>
+                        </p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                            <span class="text-muted small">(0)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center my-4">
+            <a th:href="@{/productos}" class="btn btn-danger btn-lg px-5">Ver Todos los Productos</a>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="mb-5">
+        <div class="flash-sales-header mb-4">
+            <p class="text-danger fw-bold mb-0">Categorías</p>
+            <h2 class="h3 fw-bold mb-0">Buscar por categoría</h2>
+        </div>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+            <div class="col" th:each="categoria : ${categorias}">
+                <a th:href="@{/productos/categoria/{id}(id=${categoria.id})}" class="text-decoration-none text-dark">
+                    <div class="category-item">
+                        <i class="fas fa-tag"></i>
+                        <p class="mb-0 fw-medium" th:text="${categoria.nombre}">Categoría</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="mb-5">
+        <div class="d-flex align-items-end mb-4">
+            <div class="flash-sales-header">
+                <p class="text-danger fw-bold mb-0">Este Mes</p>
+                <h2 class="h3 fw-bold mb-0">Productos más vendidos</h2>
+            </div>
+            <a th:href="@{/productos?sort=top_rated}" class="btn btn-danger ms-auto px-5">Ver Todo</a>
+        </div>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <div class="col" th:each="producto : ${productosMasVendidos}">
+                <div class="card product-card" th:attr="data-id=${producto.id}">
+                    <div class="product-card-img-top-wrapper">
+                        <img th:if="${!#lists.isEmpty(producto.variants) && producto.variants[0].imagenPrincipalUrl != null}"
+                             th:src="@{/uploads/{filename}(filename=${producto.variants[0].imagenPrincipalUrl})}"
+                             class="card-img-top product-card-img-top" th:alt="${producto.nombre}">
+                        <img th:if="${#lists.isEmpty(producto.variants) || producto.variants[0].imagenPrincipalUrl == null}"
+                             th:src="@{/img/placeholder.png}"
+                             class="card-img-top product-card-img-top" th:alt="${producto.nombre}">
+                        <div class="product-card-actions">
+                            <a href="#" class="text-dark bg-white rounded-circle p-2 d-block mb-2" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+                        </div>
+                        <button class="btn-add-to-cart" onclick="addToCart(event)">Añadir al Carrito</button>
+                    </div>
+                    <div class="card-body product-card-body">
+                        <h5 class="card-title fw-medium" th:text="${producto.nombre}">Nombre del Producto</h5>
+                        <p class="card-text" th:if="${!#lists.isEmpty(producto.variants)}">
+                            <span class="text-danger fw-bold" th:text="${#numbers.formatCurrency(producto.variants[0].precio)}">$0.00</span>
+                            <span th:if="${producto.variants[0].descuentoActivo}" class="text-muted text-decoration-line-through ms-2" th:text="${#numbers.formatCurrency(producto.variants[0].precioOriginal)}">$0.00</span>
+                        </p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            <span class="text-muted small">(0)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="mb-5">
+        <div class="d-flex align-items-end mb-4">
+            <div class="flash-sales-header">
+                <p class="text-danger fw-bold mb-0">Nuestros Productos</p>
+                <h2 class="h3 fw-bold mb-0">Explora Nuestros Productos</h2>
+            </div>
+            <div class="ms-auto d-flex align-items-center">
+                <button class="btn btn-light rounded-circle p-2 me-2" aria-label="Anterior Producto"><i class="fas fa-arrow-left"></i></button>
+                <button class="btn btn-light rounded-circle p-2" aria-label="Siguiente Producto"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <div class="col" th:each="producto : ${productos}">
+                <div class="card product-card" th:attr="data-id=${producto.id}">
+                    <div class="product-card-img-top-wrapper">
+                        <img th:if="${!#lists.isEmpty(producto.variants) && producto.variants[0].imagenPrincipalUrl != null}"
+                             th:src="@{/uploads/{filename}(filename=${producto.variants[0].imagenPrincipalUrl})}"
+                             class="card-img-top product-card-img-top" th:alt="${producto.nombre}">
+                        <img th:if="${#lists.isEmpty(producto.variants) || producto.variants[0].imagenPrincipalUrl == null}"
+                             th:src="@{/img/placeholder.png}"
+                             class="card-img-top product-card-img-top" th:alt="${producto.nombre}">
+
+                        <div class="product-card-actions">
+                            <a href="#" class="text-dark bg-white rounded-circle p-2 d-block mb-2" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+                            <a th:href="@{/producto/{id}(id=${producto.id})}" class="text-dark bg-white rounded-circle p-2 d-block mb-2" aria-label="Ver producto"><i class="fa-regular fa-eye"></i></a>
+                        </div>
+                        <button class="btn-add-to-cart" onclick="addToCart(event)">Añadir al Carrito</button>
+                    </div>
+                    <div class="card-body product-card-body">
+                        <h5 class="card-title fw-medium" th:text="${producto.nombre}">Nombre del Producto</h5>
+                        <p class="card-text" th:if="${!#lists.isEmpty(producto.variants)}">
+                            <span class="text-danger fw-bold" th:text="${#numbers.formatCurrency(producto.variants[0].precio)}">$0.00</span>
+                            <span th:if="${producto.variants[0].descuentoActivo}" class="text-muted text-decoration-line-through ms-2" th:text="${#numbers.formatCurrency(producto.variants[0].precioOriginal)}">$0.00</span>
+                        </p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            <span class="text-muted small">(0)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center my-4">
+            <a th:href="@{/productos}" class="btn btn-danger btn-lg px-5">Ver todo</a>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+</main>
+
+<div class="chatbot-widget" id="chatbotWidget">
+    <button class="chatbot-toggle-btn" onclick="toggleChatbot()">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+    <div class="chatbot-window" id="chatWindow">
+        <div class="chatbot-header">
+            <div class="chatbot-info">
+                <div class="chatbot-avatar">🤖</div>
+                <h5 class="chatbot-title">Asistente de Compras 🛍️</h5>
+            </div>
+            <div class="chatbot-controls">
+                <button class="transfer-btn" title="Hablar con un Agente Humano">
+                    <i class="fas fa-headset"></i>
+                </button>
+                <button class="close-btn" onclick="toggleChatbot()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="chatbot-body" id="chatBody">
+            <div class="message ai-message">
+                <p>¡Hola! Soy tu asistente. Puedo ayudarte a encontrar productos y gestionar tu compra. ¿Qué estás buscando hoy?</p>
+                <div class="quick-replies">
+                    <button class="quick-reply-btn" data-action="search">Buscar Producto</button>
+                    <button class="quick-reply-btn" data-action="cart">Consultar mi Carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chatbot-input-container">
+            <input type="text" id="userInput" placeholder="Escribe tu pregunta..." onkeypress="handleKeyPress(event)">
+            <button class="send-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-black text-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <h2 class="h5 fw-bold mb-3">TechZone</h2>
+                <p class="fw-bold">Regístrate Ahora</p>
+                <p class="text-muted">Obtenga un 10% de descuento en su primer pedido</p>
+
+                <form class="d-flex" th:action="@{/suscribirse}" method="post">
+                    <label for="footer-email" class="visually-hidden">Ingresa tu email</label>
+                    <input type="email" id="footer-email" name="email" class="form-control rounded-0 border-0 bg-secondary text-white" placeholder="Enter your email">
+                    <button class="btn btn-danger rounded-0" type="submit" aria-label="Suscribirse">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Soporte</h3>
+                <ul class="list-unstyled text-muted">
+                    <li>Av Peru 1722 A-25</li>
+                    <li>exclusive@gmail.com</li>
+                    <li>+88015-88888-9999</li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Cuenta</h3>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/registro}" class="text-muted text-decoration-none">Acceder / Registrarse</a></li>
+                    <li><a th:href="@{/carrito}" class="text-muted text-decoration-none">Carrito</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Lista de Deseos</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Compras</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Enlaces</h3>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-muted text-decoration-none">Política de privacidad</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Condiciones de uso</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">FAQ</a></li>
+                    <li><a th:href="@{/contacto}" class="text-muted text-decoration-none">Contacto</a></li>
+                </ul>
+                <div class="social-icons mt-3">
+                    <a href="#" class="text-white me-3" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-3" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-3" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4 text-muted border-top pt-3 border-secondary">
+            <small>© Copyright TechZone 2025. All right reserved</small>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:src="@{/js/InicioLogica.js}"></script>
+<script th:src="@{/js/ChatbotLogica.js}"></script>
+
+</body>
+</html>

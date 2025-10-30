@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TechZone Perú - Carrito de Compras">
+    <title>TechZone Perú - Carrito</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+    <link rel="stylesheet" th:href="@{/css/CarritoEstilo.css}"> </head>
+<body>
+<div class="bg-dark text-white text-center py-2 top-banner">
+    Rebajas de primavera y envío exprés gratuito ¡50% de descuento!
+    <a th:href="@{/productos}" class="text-white fw-bold text-decoration-none">Comprar Ahora</a>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a class="navbar-brand fw-bold fs-4" th:href="@{/}" aria-label="TechZone - Ir a inicio">TechZone</a>
+
+        <div class="nav-icons-mobile d-flex d-lg-none align-items-center ms-auto">
+            <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+            <a th:href="@{/carrito}" aria-label="Carrito de compras" class="text-danger"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
+
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/nosotros}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/registro}">Regístrate</a></li>
+            </ul>
+
+            <form class="d-flex search-form ms-3 me-3" role="search" th:action="@{/buscar}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="q" placeholder="¿Qué estás buscando?" aria-label="¿Qué estás buscando?">
+                    <button class="btn btn-outline-secondary" type="submit" aria-label="Buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div class="nav-icons d-none d-lg-flex align-items-center">
+                <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+                <a th:href="@{/carrito}" aria-label="Carrito de compras" class="text-danger"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container pt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" class="text-muted text-decoration-none">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Carrito</li>
+        </ol>
+    </nav>
+</div>
+
+<main class="container main-content my-4">
+    <h1 class="mb-4">Carrito de Compras</h1>
+
+    <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+
+    <div class="row d-none d-md-flex text-muted pb-3 mb-3 border-bottom cart-header fw-bold">
+        <div class="col-md-6 product-info-col ps-0">Producto</div>
+        <div class="col-md-2 price-col text-center">Precio</div>
+        <div class="col-md-2 quantity-col text-center">Cantidad</div>
+        <div class="col-md-2 subtotal-col pe-0 text-end">Subtotal</div>
+    </div>
+
+    <div id="cart-items-container">
+        <div th:if="${#lists.isEmpty(cartItems)}" class="text-center text-muted p-5 border rounded bg-light">
+            Tu carrito está vacío.
+        </div>
+
+        <div th:each="item, iterStat : ${cartItems}" class="row align-items-center py-3 border-bottom cart-item" th:id="'item-' + ${item.variantId}">
+            <div class="col-12 col-md-6 product-info-col ps-0 d-flex align-items-center mb-3 mb-md-0">
+                <img th:src="${item.imagenUrl != null ? '/uploads/' + item.imagenUrl : '/img/placeholder.png'}"
+                     alt="Imagen producto"
+                     class="img-fluid me-3" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                <div>
+                    <a href="#" class="text-dark text-decoration-none fw-medium" th:text="${item.nombre}">Nombre del Producto</a>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-2 price-col text-md-center">
+                <span class="d-md-none small text-muted me-2">Precio:</span>
+                <span th:text="${#numbers.formatCurrency(item.precioUnitario)}">$0.00</span>
+            </div>
+
+            <div class="col-6 col-md-2 quantity-col text-md-center">
+                <form th:action="@{/carrito/actualizar}" method="post" class="d-inline-flex align-items-center">
+                    <input type="hidden" name="variantId" th:value="${item.variantId}" />
+                    <label th:for="${'quantity-' + item.variantId}" class="visually-hidden">Cantidad</label>
+                    <input type="number" th:id="${'quantity-' + item.variantId}" name="cantidad" th:value="${item.cantidad}" min="1" class="form-control form-control-sm text-center me-2" style="width: 70px;">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary d-md-none" title="Actualizar cantidad">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </form>
+                <form th:action="@{/carrito/eliminar}" method="post" class="d-inline-block ms-2">
+                    <input type="hidden" name="variantId" th:value="${item.variantId}" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar item">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="col-12 col-md-2 subtotal-col pe-0 text-end mt-2 mt-md-0">
+                <span class="d-md-none small text-muted me-2">Subtotal:</span>
+                <span class="fw-bold" th:text="${#numbers.formatCurrency(item.subtotal)}">$0.00</span>
+            </div>
+        </div></div><div class="row pt-4 pb-5">
+    <div class="col-md-6 text-md-start mb-3 mb-md-0">
+        <a th:href="@{/}" class="btn btn-outline-dark px-4 py-2">
+            <i class="fas fa-arrow-left me-1"></i> Seguir Comprando
+        </a>
+    </div>
+    <div class="col-md-6 text-md-end">
+    </div>
+</div>
+
+    <div class="row mb-5">
+        <div class="col-md-6 coupon-section mb-4 mb-md-0">
+            <form th:action="@{/carrito/aplicar-cupon}" method="post">
+                <h2 class="h5 fw-bold mb-3">Código de Cupón</h2>
+                <div class="input-group">
+                    <label for="coupon-code" class="visually-hidden">Ingresa tu cupón</label>
+                    <input type="text" id="coupon-code" name="codigoCupon" class="form-control p-3" placeholder="Código">
+                    <button class="btn btn-danger" type="submit">Aplicar cupón</button>
+                </div>
+                <div th:if="${couponError}" class="text-danger small mt-2" th:text="${couponError}"></div>
+            </form>
+        </div>
+
+        <div class="col-md-6 d-flex justify-content-end">
+            <div class="card shadow-sm border-0 w-100" style="max-width: 400px;">
+                <div class="card-body p-4">
+                    <h2 class="h4 fw-bold mb-3 border-bottom pb-2">Total del Carrito</h2>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span class="fw-medium" th:text="${#numbers.formatCurrency(cartTotal.subtotal)}">$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Envío:</span>
+                        <span class="fw-medium" th:text="${cartTotal.shipping}">Gratis</span>
+                    </div>
+                    <div th:if="${cartTotal.discount > 0}" class="d-flex justify-content-between mb-2 text-success">
+                        <span>Descuento:</span>
+                        <span class="fw-medium" th:text="'-' + ${#numbers.formatCurrency(cartTotal.discount)}">-$0.00</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold h5 mt-2">
+                        <span>Total:</span>
+                        <span th:text="${#numbers.formatCurrency(cartTotal.total)}">$0.00</span>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <a th:href="@{/checkout}" class="btn btn-danger btn-lg process-btn">
+                            <i class="fas fa-credit-card me-1"></i> Proceder al Pago
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer class="bg-black text-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <h2 class="h5 fw-bold mb-3">TechZone</h2>
+                <p class="fw-bold">Suscríbete</p>
+                <p class="text-muted">Obtén 10% dto. en tu primer pedido</p>
+                <form class="d-flex" th:action="@{/suscribirse}" method="post">
+                    <input type="email" name="email" class="form-control rounded-0 border-0 bg-secondary text-white" placeholder="Tu email">
+                    <button class="btn btn-danger rounded-0" type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Soporte</h3>
+                <ul class="list-unstyled text-muted">
+                    <li>Av. San Martin A1742</li>
+                    <li>exclusive@gmail.com</li>
+                    <li>+88015-88888-9999</li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Cuenta</h3>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/login}" class="text-muted text-decoration-none">Acceder / Registrarse</a></li>
+                    <li><a th:href="@{/carrito}" class="text-muted text-decoration-none">Carrito</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Lista de Deseos</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Compras</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Enlaces</h3>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-muted text-decoration-none">Política de privacidad</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Condiciones de uso</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">FAQ</a></li>
+                    <li><a th:href="@{/contacto}" class="text-muted text-decoration-none">Contacto</a></li>
+                </ul>
+                <div class="social-icons mt-3">
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4 text-muted border-top pt-3 border-secondary">
+            <small>© Copyright TechZone 2025. All rights reserved</small>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
