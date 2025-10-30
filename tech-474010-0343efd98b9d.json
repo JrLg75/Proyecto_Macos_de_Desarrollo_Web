@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "tech-474010",
+  "private_key_id": "0343efd98b9ddf58267efbcac77eb790666fbc1a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDocmsRihkV4nrr\nP7dncHSJ4STEIQME6ci5yW51bFmSOWnm+VyHA5xui/J+/OfVS01knyAnyE+4izRd\nIDeU0QWVWKmsJQlhpeJjdxREtH/gwyAaTrtShwR4P8Yj//sPet7LzgVsmTyz8nZt\nZxJ4LRMxXSJYvoBKTiApJ9ezKT3aNAFpP/RYh7pe2bn0sgd4r76EQpj7K7K24LF9\n/ZGEeACLcGRVayroGM/1m0F0mMYSmd/M0/NbYru/s3bknfBYgUVzZ8vokfGldNG1\nvtK9E0VU9BZ7y8IlxPjF9j14jACu8qnMf0tYC9BzqDGRIllDa6KzxbbU9spxdWRj\nvnX6kcHvAgMBAAECggEAAqu14Ti1+xNkGCneQJkBLchhdMNwVnEdNk1DMKQzD0QL\nnHTHBGIdPQPsoFrliwTXec1+QBbEG7m1u1Awc0xHhSTEpk6yoeWXCU+H8xYj1gBH\n8SVwb41PltYcv7MkPlRKFQtj8pB8KxEhHTau9qSF8O5CA8UEklX9dpuXld5mcIhc\n1FsFUZVqz3c7SNwF4U/ivfBW+IYFDH8jfvJpP8OoEzlyRra4h35veEnWpN2Nq5g0\nnevJXHFP9O8dEv/od1sC+n7Ui1QUBjdkwHPZILzpmknhiK0LH9UxLRD9/XBf4Bo8\noDjy39NkSvOR6p3uG6M5mOuOinP8azzXkqh0cogLCQKBgQD5o+6zh5U7+6n72d8S\noxqZlITjBRf3X8+/KKDoQjMW6uVAbclaSh8CGtnRZgLPQlLY7o7fvrl1GJh7lvuL\nQe44197i0l0GkCF55LL3ewmq6INbE2zcSfxfjMvNWQgjQnKMhybUcWcGDHJMVp3X\nS5kMuQlyLav0ldbOcoRw6NhnBQKBgQDuXls5IZxYsK+oUMZ3RSxqAsB2F7zYD/Kx\nB4ompkDjNUZLoJQiI0HkC/Jqt9NRMjtlVnu3ZrdrST+yK6Sdxi2fpMdzvfEkx1Rf\nsDR0ugjOtgzXGJ7hex+g9G8X7GUpE2OmH8DNq7zjccveXZZHo7xoX6e2io4xkx3M\n2RQ/NZgvYwKBgQDOfYPXakHNsNgk4006PEGnYYsdwTvWuaC8jN2z3/Ykcb2ZMnaH\nwaGuewlKxKd0Snb+yyzQ9BCxQ9v09qkwwiNLT3wkgD7ES/n0unAydspDXTox3nqA\nKI6hdnOpcohhqffYN36t4POHtEnizQ6YZAa/2Fpw4EhI8pwQffcA8gj2BQKBgDjg\nvve082+eSWvqSlEvalepbG9BXshXldt0Jxzt0tHkZm+pU2+J5jEaQLACSSQ4zj9y\nEXdDxUSOZ+qFy3PyU/SiBw2xJxdVkOZ8TygDNBLPEeVJdK/tBzEK4m9c8w6IF+EN\n9p2c+ydygej/f9p8UXq+SHCgQynFJvk4W0Jx8WxtAoGBAPiZ31vGjflkaCMGrSnS\nobfFN62aqh1yo19RRL2EiPbPCzqrskEeOD0e0FvyKmlwLpz+tiLiSDoMlg96fxMC\nHDBC3agQWDXbx/q5T4Uahg9EJXgwWkC3OZmYUGn6DM/DgwSb+60JqgAFQrTuXTGt\n5HtVAMvQJk5mI88zO93ELuo7\n-----END PRIVATE KEY-----\n",
+  "client_email": "techzone-bi-service@tech-474010.iam.gserviceaccount.com",
+  "client_id": "109909137854339989997",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/techzone-bi-service%40tech-474010.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
