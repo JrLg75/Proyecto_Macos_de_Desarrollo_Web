@@ -28,6 +28,7 @@ public class ProductAdminController {
         model.addAttribute("productos", listaProductos);
         return "admin/productos/lista";
     }
+
     /**
      * Muestra el formulario para crear un nuevo producto base.
      */

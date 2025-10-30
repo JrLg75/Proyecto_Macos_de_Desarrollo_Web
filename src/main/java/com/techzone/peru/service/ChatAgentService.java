@@ -156,14 +156,20 @@ public class ChatAgentService {
     }
 
     private String extractOrderNumber(String text) {
-        String cleaned = text.replaceAll("[^A-Za-z0-9-]", " ").trim();
-        String[] tokens = cleaned.split("\\s+");
-        for (String t : tokens) {
-            if (t.length() >= 3 && t.matches("[A-Za-z0-9-]+")) {
-                return t.toUpperCase(Locale.ROOT);
-            }
+        // Usamos Regex (como en extractCity) para buscar el patrón específico que
+        // coincide con tus pedidos (ej. "TZ-029DC6DA")
+
+        // (?i) -> Ignora mayúsculas/minúsculas
+        // (TZ-[A-Za-z0-9-]+) -> Busca "TZ-" seguido de letras, números o guiones
+        var m = java.util.regex.Pattern.compile("(?i)(TZ-[A-Za-z0-9-]+)")
+                .matcher(text);
+
+        if (m.find()) {
+            // m.group(1) es el texto capturado por los paréntesis
+            return m.group(1).toUpperCase(Locale.ROOT);
         }
-        return "";
+
+        return ""; // Devuelve vacío si no encontró el patrón
     }
 
     private String extractCity(String text) {

@@ -40,7 +40,26 @@
                 <li class="nav-item"><a class="nav-link active" th:href="@{/}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/nosotros}">Nosotros</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/registro}">Regístrate</a></li>
+
+                <li class="nav-item" th:if="${nombreUsuario == null}">
+                    <a class="nav-link" th:href="@{/registro}">Regístrate</a>
+                </li>
+                <li class="nav-item" th:if="${nombreUsuario == null}">
+                    <a class="nav-link" th:href="@{/login}">Acceder</a>
+                </li>
+
+                <li class="nav-item" th:if="${nombreUsuario != null}">
+                    <a class="nav-link text-danger" href="#"> <i class="fa-solid fa-user me-1"></i>
+                        Hola, <span th:text="${nombreUsuario}">Usuario</span>
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${nombreUsuario != null}">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <button type="submit" class="nav-link btn btn-link" style="font-weight: 500;">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i> Salir
+                        </button>
+                    </form>
+                </li>
             </ul>
 
             <form class="d-flex search-form ms-3 me-3" role="search" th:action="@{/buscar}" method="get">
@@ -157,7 +176,10 @@
                         <div class="product-card-actions">
                             <a href="#" class="text-dark bg-white rounded-circle p-2 d-block mb-2" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
                         </div>
-                        <button class="btn-add-to-cart" onclick="addToCart(event)">Añadir al Carrito</button>
+                        <form th:action="@{/carrito/agregar}" method="post" class="btn-add-to-cart-form">
+                            <input type="hidden" name="varianteId" th:if="${!#lists.isEmpty(producto.variants)}" th:value="${producto.variants[0].id}" />
+                            <button type="submit" class="btn-add-to-cart">Añadir al Carrito</button>
+                        </form>
                     </div>
                     <div class="card-body product-card-body">
                         <h5 class="card-title fw-medium" th:text="${producto.nombre}">Nombre del Producto</h5>
@@ -269,7 +291,17 @@
                             <a href="#" class="text-dark bg-white rounded-circle p-2 d-block mb-2" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
                             <a th:href="@{/producto/{id}(id=${producto.id})}" class="text-dark bg-white rounded-circle p-2 d-block mb-2" aria-label="Ver producto"><i class="fa-regular fa-eye"></i></a>
                         </div>
-                        <button class="btn-add-to-cart" onclick="addToCart(event)">Añadir al Carrito</button>
+                        <form th:action="@{/carrito/agregar}" method="post" class="btn-add-to-cart-form">
+
+                            <input type="hidden" name="varianteId"
+                                   th:if="${!#lists.isEmpty(producto.variants)}"
+                                   th:value="${producto.variants[0].id}" />
+
+                            <button type="submit" class="btn-add-to-cart"
+                                    th:disabled="${#lists.isEmpty(producto.variants)}">
+                                Añadir al Carrito
+                            </button>
+                        </form>
                     </div>
                     <div class="card-body product-card-body">
                         <h5 class="card-title fw-medium" th:text="${producto.nombre}">Nombre del Producto</h5>
