@@ -7,8 +7,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+    <link rel="stylesheet" th:href="@{/css/EstiloChatbot.css}">
+    <style>
+        /* Estilos para las etiquetas de temas */
+        .topic-badge {
+            font-size: 0.85em;
+            padding: 0.3em 0.6em;
+            border-radius: 4px;
+            margin: 2px;
+            display: inline-block;
+            border: 1px solid;
+        }
+        .topic-Positivo {
+            background-color: #d1e7dd;
+            border-color: #a3cfbb;
+            color: #0a3622;
+        }
+        .topic-Negativo {
+            background-color: #f8d7da;
+            border-color: #f1aeb5;
+            color: #58151c;
+        }
+        .topic-Neutral {
+            background-color: #e2e3e5;
+            border-color: #c4c8cb;
+            color: #41464b;
+        }
+    </style>
 </head>
-<body class="bg-light d-flex flex-column min-vh-100"> <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" th:href="@{/admin/dashboard}">
             <i class="fa-solid fa-shield-halved me-2"></i> TechZone Admin
@@ -34,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/admin/sentimiento}">
+                    <a class="nav-link active" th:href="@{/dashboard}">
                         <i class="fa-solid fa-chart-pie me-1"></i> Sentimiento
                     </a>
                 </li>
@@ -51,7 +80,8 @@
     </div>
 </nav>
 
-<main class="container mt-4 flex-grow-1"> <h1 class="mb-4"><i class="fa-solid fa-chart-pie me-2"></i>Dashboard de Análisis de Sentimiento</h1>
+<main class="container mt-4 flex-grow-1">
+    <h1 class="mb-4"><i class="fa-solid fa-chart-pie me-2"></i>Dashboard de Análisis de Sentimiento</h1>
 
     <div class="row mb-4">
         <div class="col-md-3">
@@ -89,45 +119,121 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-md-8 offset-md-2"> <div class="card shadow-sm border-0">
-            <div class="card-header bg-white fw-bold">
-                <i class="fa-solid fa-chart-pie me-1"></i> Distribución de Sentimientos
-            </div>
-            <div class="card-body" style="min-height: 400px;"> <canvas id="graficoSentimientos"></canvas>
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold">
+                    <i class="fa-solid fa-chart-pie me-1"></i> Distribución de Sentimientos
+                </div>
+                <div class="card-body" style="min-height: 400px;">
+                    <canvas id="graficoSentimientos"></canvas>
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="mb-3"><i class="fa-solid fa-tags me-2"></i>Temas por Producto</h2>
+
+            <div th:if="${#lists.isEmpty(stats.statsPorProducto())}" class="alert alert-info">
+                Aún no hay suficientes reseñas analizadas por producto para mostrar insights.
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4" th:each="productStat : ${stats.statsPorProducto()}">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-white fw-bold" th:text="${productStat.productName()}">
+                            Nombre del Producto
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Temas Mencionados:</h6>
+
+                            <div th:if="${#lists.isEmpty(productStat.topics())}" class="text-muted small">
+                                Sin temas extraídos para este producto.
+                            </div>
+
+                            <div th:unless="${#lists.isEmpty(productStat.topics())}">
+                                <span th:each="topic : ${productStat.topics()}"
+                                      class="topic-badge"
+                                      th:classappend="'topic-' + ${topic.sentimiento()}"
+                                      th:text="${topic.tema()}">
+                                    batería
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
 
-<footer class="bg-dark text-white-50 text-center py-3 mt-5"> <div class="container">
-    <small>© Copyright TechZone 2025. Panel de Administración.</small>
+<div class.="chatbot-widget" id="adminChatbotWidget" style="z-index: 1001;">
+    <button class="chatbot-toggle-btn bg-primary" onclick="toggleAdminChatbot()">
+        <i class="fas fa-brain"></i> </button>
+
+    <div class="chatbot-window" id="adminChatWindow">
+        <div class="chatbot-header bg-primary">
+            <div class="chatbot-info">
+                <div class="chatbot-avatar">🧠</div>
+                <h5 class="chatbot-title">Asistente de Negocios</h5>
+            </div>
+            <div class="chatbot-controls">
+                <button class="close-btn" onclick="toggleAdminChatbot()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="chatbot-body" id="adminChatBody">
+            <div class="message ai-message">
+                <p>¡Hola! Soy tu analista de negocios. Tengo acceso a los datos de ventas y reseñas. ¿Qué necesitas saber?</p>
+                <div class="quick-replies">
+                    <button class="quick-reply-btn" onclick="document.getElementById('adminUserInput').value = 'Dame un resumen de ventas'; sendAdminMessage();">Resumen de Ventas</button>
+                    <button class="quick-reply-btn" onclick="document.getElementById('adminUserInput').value = '¿Cuáles son las quejas más comunes?'; sendAdminMessage();">Quejas Comunes</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chatbot-input-container">
+            <input type="text" id="adminUserInput" placeholder="Ej: ¿Por qué baja el ticket promedio?" onkeypress="handleAdminKeyPress(event)">
+            <button class="send-btn" onclick="sendAdminMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 </div>
+
+<footer class="bg-dark text-white-50 text-center py-3 mt-5">
+    <div class="container">
+        <small>© Copyright TechZone 2025. Panel de Administración.</small>
+    </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
     const ctx = document.getElementById('graficoSentimientos');
-    const statsData = /*[[${stats}]]*/ {}; // Obtiene los datos del modelo
+    const statsData = /*[[${stats}]]*/ {};
 
     if (ctx && statsData) {
         new Chart(ctx, {
-            type: 'pie', // Tipo de gráfico: pastel
+            type: 'pie',
             data: {
-                labels: ['Positivas 👍', 'Negativas 👎', 'Neutrales 😐'], // Etiquetas con emojis
+                labels: ['Positivas 👍', 'Negativas 👎', 'Neutrales 😐'],
                 datasets: [{
                     label: 'Número de Reseñas',
                     data: [
-                        statsData.positivos || 0, // Asegura que sea 0 si es null/undefined
+                        statsData.positivos || 0,
                         statsData.negativos || 0,
                         statsData.neutrales || 0
                     ],
                     backgroundColor: [
-                        'rgba(40, 167, 69, 0.7)',  // Verde Bootstrap Success
-                        'rgba(220, 53, 69, 0.7)',   // Rojo Bootstrap Danger
-                        'rgba(108, 117, 125, 0.7)'  // Gris Bootstrap Secondary
+                        'rgba(40, 167, 69, 0.7)',
+                        'rgba(220, 53, 69, 0.7)',
+                        'rgba(108, 117, 125, 0.7)'
                     ],
                     borderColor: [
                         'rgb(40, 167, 69)',
@@ -135,26 +241,22 @@
                         'rgb(108, 117, 125)'
                     ],
                     borderWidth: 1,
-                    hoverOffset: 8 // Efecto al pasar el mouse
+                    hoverOffset: 8
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Permite ajustar mejor la altura
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'top', // Posición de la leyenda
+                        position: 'top',
                     },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
                                 let label = context.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed !== null) {
-                                    label += context.parsed;
-                                }
+                                if (label) { label += ': '; }
+                                if (context.parsed !== null) { label += context.parsed; }
                                 return label;
                             }
                         }
@@ -167,5 +269,6 @@
     }
     /*]]>*/
 </script>
+<script th:src="@{/js/AdminChatLogica.js}"></script>
 </body>
 </html>

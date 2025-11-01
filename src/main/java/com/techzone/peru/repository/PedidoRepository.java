@@ -6,14 +6,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
-    /**
-     * Busca un pedido por su número de pedido único.
-     * El número de pedido es el que se le proporciona al cliente.
-     * @param numeroPedido El identificador del pedido.
-     * @return Un Optional que contiene el Pedido si se encuentra.
-     */
     Optional<Pedido> findByNumeroPedido(String numeroPedido);
+
+    // --- ¡AÑADIR ESTE MÉTODO! ---
+    List<Pedido> findAllByFechaPedidoBetween(OffsetDateTime start, OffsetDateTime end);
 }

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "tech-474010",
+  "private_key_id": "ae67d04f83416abf7c18d144fa17f61ca61909f7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDkwW03ug3EDpcN\nQp0Vbcq72Ao+i3vKRzLATLGaMh0A/WKB2TDVAZY6tT4bvhs9F8esXt6dYE2BJfcD\nt3BWAmRB8OTs1dwdTmXF7odB8w7qvki7EEqQZq62bjCxutUDN1pieVepZ1n0O9cr\nV/mffHtbuGKFpmEsIQ+Eh8bORN8AkStAbO+CpyVoycfQGAAME3JLyRedCVbmaGS5\nnDCXFb3/5eCPyPbqXFi1Xc9CQm7BClPPdJkz6F3Jk9c+1YoU1KAE89PS9Kii8LnI\ngv7ZIz+SvGbbjzGmHyXMo0JDmIxw7dnhDHal87+cEqfklh2PpqZTbAZ68p7q/3cw\nbrBfJQd3AgMBAAECggEAajDcmYz2DPhU6KPutd7kyPSONOCdU5ZfmeNAYvs2eZom\nm26Oe6Mj8RbnwQssK90ZJQxZPSdSc0yDcac7L8ImdnH0Y3kXmEcneY20HkpNt20j\n6Cq04nm4Sxm14xt+/OI6RBJePlaq7HTG+uj5CS9JOJfMrIxC+bBTOsuo32IbP3BD\ng2DLsP5YOgm+iVl9ASOH4Vn5vM7WCMXchU0zjrE9AtZW3PRclsoXmT6gFWSTVG4z\nnT4JwzTpnTrk9ZNZYDeOeSBnMq8wPygV0ayHGh8BZa5QH3+38JEL2OyYsWHnhQln\n5jFjOZcw93078qqCgIQzq2kotaP5yot89lDe7gLzwQKBgQD9H+Xqp8AXOZifEKkf\n4niX+DDZ9fIQ/ps7JnIBdDej44sgy93VzC9CjXAQIJGrXVxFGsRcxCHVu/zenfhg\nOysw/uq3CPe3LOcqAyP9fWshTXfuzI8/kmPS6I3kUuqFjp8qFxnCDRcvGgWMAaVi\n3GVrCYMoEo+HerTTKApIG7ajYQKBgQDnWqlxX2ZgTM/dHaTLQVJGqIAFyhdXeod4\nMSCrFd5dh1GsEo1EcyrJPAeNO3v/QFvnjG1Us9g6owNxfjOD8QeuR4lbozflpwIO\nUCSo5ct+Lw4cm/9i9StyLVAQB1xa0i1SrwkVwv2LnQTCBLrZQPPDsawuWVX6U+6F\nWr+HISRx1wKBgQCGcX/T39+WNmBK9DVwGwDEbu27hvdYcXMPur7I6Op4oO4PsFiW\nKwpbBfakijf01fShO7NaNk5mUJ/hufPnYOXy8yLFrvyrjS0G0n42MHxLRvNRodLg\nCCf/KMfcovGvmG4PlA95UyyiNucFUwZ9+OPhMz83dIxJgDI1CUpUvGuIYQKBgQDf\niO/TBRRL06u7v5qscM7oSoJ4FY18Dn26Ge2woI6b29WD5uDr1ELw8LlzMphaRnsG\nPN6eSq6P6VW4YPGxeD+tmp0TF584m6cW4USqlG2L3DdMWUXm/XAe/70t347SieUU\n0N58UkzcirhAJoXKyEE/QfpVRigWmOYLn2UTUWh/PQKBgC7j9N656Dd0rVDzzTdJ\nyELmC1sMCDd/6TMz29QWPN5VOiYcvdzI4j1VZ7CQmkJiufzdneWXT48gFByTP9Vr\nOBmync2vQ3STyc+uNx5GLixkQjinD45m7Qz2Gc3QiZdkf6EuSh0W5ix42h4jhyz+\n8Fl0X8/p7D+PEqCd2vRum2o6\n-----END PRIVATE KEY-----\n",
+  "client_email": "techzone-spring-agent@tech-474010.iam.gserviceaccount.com",
+  "client_id": "104277040802309103440",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/techzone-spring-agent%40tech-474010.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

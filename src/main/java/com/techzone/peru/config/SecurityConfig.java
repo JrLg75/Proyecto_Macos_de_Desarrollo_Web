@@ -18,7 +18,7 @@ public class SecurityConfig {
         http
                 // 1. CSRF (Esto estaba bien)
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/v1/chatbot/**", "/api/v1/agent/**", "/test-analisis/**")
+                        .ignoringRequestMatchers("/api/v1/chatbot/**", "/api/v1/agent/**", "/test-analisis/**", "/api/v1/admin-agent/**")
                 )
                 // 2. Autorización (Esto estaba bien)
                 .authorizeHttpRequests(authz -> authz
