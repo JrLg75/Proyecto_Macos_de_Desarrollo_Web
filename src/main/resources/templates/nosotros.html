@@ -23,17 +23,11 @@
 </div>
 
 <!-- 🧭 Barra de navegación -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-3 border-bottom">
     <div class="container d-flex align-items-center justify-content-between">
-        <a class="navbar-brand fw-bold fs-4" th:href="@{/}" aria-label="TechZone - Ir al inicio">TechZone</a>
+        <a class="navbar-brand fw-bold fs-4" th:href="@{/}">TechZone</a>
 
-        <div class="nav-icons-mobile d-flex d-lg-none align-items-center ms-auto">
-            <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
-            <a th:href="@{/carrito}" aria-label="Carrito de compras"><i class="fa-solid fa-cart-shopping"></i></a>
-        </div>
-
-        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegación">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -42,21 +36,36 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
                 <li class="nav-item"><a class="nav-link active" th:href="@{/nosotros}">Nosotros</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/registro}">Regístrate</a></li>
+
+                <li class="nav-item" th:if="${nombreUsuario == null}">
+                    <a class="nav-link" th:href="@{/registro}">Regístrate</a>
+                </li>
+                <li class="nav-item" th:if="${nombreUsuario == null}">
+                    <a class="nav-link" th:href="@{/login}">Acceder</a>
+                </li>
             </ul>
 
-            <form class="d-flex search-form ms-3 me-3" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="¿Qué estás buscando?" aria-label="Buscar">
-                    <button class="btn btn-outline-secondary" type="submit" aria-label="Buscar">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
+            <div class="d-flex align-items-center gap-3">
+                <div class="dropdown" th:if="${nombreUsuario != null}">
+                    <a class="nav-link dropdown-toggle text-danger fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-user me-1"></i> <span th:text="${nombreUsuario}">Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                        <li><a class="dropdown-item" th:href="@{/perfil}"><i class="fa-regular fa-user me-2"></i> Mi Perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{/perfil/ordenes}"><i class="fa-solid fa-box-open me-2"></i> Mis Órdenes</a></li>
 
-            <div class="nav-icons d-none d-lg-flex align-items-center">
-                <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
-                <a th:href="@{/carrito}" aria-label="Carrito de compras"><i class="fa-solid fa-cart-shopping"></i></a>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button class="dropdown-item text-danger" type="submit"><i class="fa-solid fa-right-from-bracket me-2"></i> Salir</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+                <a th:href="@{/carrito}" class="text-dark position-relative">
+                    <i class="fa-solid fa-cart-shopping fs-5"></i>
+                </a>
             </div>
         </div>
     </div>

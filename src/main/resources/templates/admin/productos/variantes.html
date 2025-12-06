@@ -6,51 +6,161 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+
+    <style>
+        /* =========================================
+           ESTILOS TECHZONE ADMIN
+           ========================================= */
+        :root {
+            --primary-color: #dc3545;
+            --dark-color: #000;
+            --light-color: #f8f9fa;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-color);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar Custom */
+        .navbar-custom {
+            background-color: var(--dark-color) !important;
+            padding: 0.8rem 0;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+
+        /* Section Headers */
+        .section-header {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+            background-color: #fff;
+        }
+
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            font-weight: 700;
+            padding: 1rem 1.5rem;
+        }
+
+        /* Tables */
+        .table-custom thead th {
+            background-color: #fff;
+            color: #6c757d;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-bottom: 2px solid #eee;
+        }
+
+        .table-custom tbody td {
+            vertical-align: middle;
+        }
+
+        /* Buttons */
+        .btn-techzone {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .btn-techzone:hover {
+            background-color: #bb2d3b;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .btn-action-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+        }
+
+        .btn-action-delete {
+            background-color: #f8d7da;
+            color: var(--primary-color);
+        }
+        .btn-action-delete:hover { background-color: var(--primary-color); color: #fff; }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color) !important;
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+    <div class="container-fluid container">
         <a class="navbar-brand fw-bold" th:href="@{/admin/dashboard}">
-            <i class="fa-solid fa-shield-halved me-2"></i>
-            TechZone Admin
+            <i class="fa-solid fa-shield-halved me-2 text-danger"></i>
+            TechZone <span class="fw-light text-white-50">Admin</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="adminNavbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item">
                     <a class="nav-link active" th:href="@{/admin/productos}">
-                        <i class="fa-solid fa-box-open me-1"></i>
-                        Productos
+                        <i class="fa-solid fa-box-open me-1"></i> Productos
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/ordenes}">
-                        <i class="fa-solid fa-receipt me-1"></i>
-                        Órdenes
+                        <i class="fa-solid fa-receipt me-1"></i> Órdenes
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/usuarios}">
-                        <i class="fa-solid fa-users me-1"></i>
-                        Usuarios
+                        <i class="fa-solid fa-users me-1"></i> Usuarios
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}" target="_blank">
-                        <i class="fa-solid fa-eye me-1"></i>
-                        Ver Sitio Público
+                    <a class="nav-link small" th:href="@{/}" target="_blank">
+                        <i class="fa-solid fa-eye me-1"></i> Ver Sitio Público
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">
-                        <i class="fa-solid fa-right-from-bracket me-1"></i>
-                        Cerrar Sesión
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link text-danger fw-bold" th:href="@{/logout}">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i> Cerrar Sesión
                     </a>
                 </li>
             </ul>
@@ -58,114 +168,129 @@
     </div>
 </nav>
 
-<main class="container mt-4">
-    <h1 class="mb-2"><i class="fa-solid fa-tags me-2"></i>Gestionar Variantes</h1>
-    <h3 class="text-muted mb-4" th:text="${producto.nombre}">Nombre del Producto</h3>
+<main class="container mt-5">
+    <div class="mb-4">
+        <span class="text-uppercase text-danger fw-bold small mb-1 d-block" style="letter-spacing: 1px;">Configuración</span>
+        <h2 class="section-header">
+            <i class="fa-solid fa-tags me-2 text-muted" style="font-size:0.8em"></i>Gestionar Variantes
+        </h2>
+        <p class="text-muted ms-3 mb-0">Producto: <strong class="text-dark" th:text="${producto.nombre}">Nombre del Producto</strong></p>
+    </div>
 
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-header bg-white fw-bold">Variantes Actuales</div>
-        <div class="card-body">
-            <table class="table table-hover align-middle">
-                <thead>
-                <tr>
-                    <th>Imagen</th>
-                    <th>SKU</th>
-                    <th>Color</th>
-                    <th>Talla</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="variante : ${producto.variants}">
-                    <td>
-                        <img th:if="${variante.imagenPrincipalUrl}"
-                             th:src="@{/uploads/{filename}(filename=${variante.imagenPrincipalUrl})}"
-                             alt="Imagen"
-                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
-                        <span th:unless="${variante.imagenPrincipalUrl}" class="text-muted small">Sin img.</span>
-                    </td>
-                    <td th:text="${variante.sku}">SKU001</td>
-                    <td th:text="${variante.color ?: '-'}">Rojo</td>
-                    <td th:text="${variante.talla ?: '-'}">M</td>
-                    <td th:text="${#numbers.formatCurrency(variante.precio)}">S/ 29.90</td>
-                    <td th:text="${variante.stock}">100</td>
-                    <td>
-                        <form th:action="@{/admin/productos/{id}/variantes/eliminar/{variantId}(id=${producto.id}, variantId=${variante.id})}" method="post">
-                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(producto.variants)}">
-                    <td colspan="7" class="text-center text-muted p-4">
-                        Este producto aún no tiene variantes.
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="card shadow-sm border-0 mb-5">
+        <div class="card-header">
+            Variantes Actuales
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-custom table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th class="ps-4">Imagen</th>
+                        <th>SKU</th>
+                        <th>Color</th>
+                        <th>Talla</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="variante : ${producto.variants}">
+                        <td class="ps-4">
+                            <div class="border rounded p-1 d-inline-block bg-light">
+                                <img th:if="${variante.imagenPrincipalUrl}"
+                                     th:src="@{/uploads/{filename}(filename=${variante.imagenPrincipalUrl})}"
+                                     alt="Imagen"
+                                     style="width: 40px; height: 40px; object-fit: cover;">
+                                <div th:unless="${variante.imagenPrincipalUrl}"
+                                     class="d-flex align-items-center justify-content-center text-muted"
+                                     style="width: 40px; height: 40px; font-size: 0.7rem;">
+                                    <i class="fa-regular fa-image"></i>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="fw-medium" th:text="${variante.sku}">SKU001</td>
+                        <td><span class="badge bg-light text-dark border fw-normal" th:text="${variante.color ?: '-'}">Rojo</span></td>
+                        <td><span class="badge bg-light text-dark border fw-normal" th:text="${variante.talla ?: '-'}">M</span></td>
+                        <td class="text-success fw-bold" th:text="${#numbers.formatCurrency(variante.precio)}">S/ 29.90</td>
+                        <td th:text="${variante.stock}">100</td>
+                        <td class="text-end pe-4">
+                            <form th:action="@{/admin/productos/{id}/variantes/eliminar/{variantId}(id=${producto.id}, variantId=${variante.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn-action-icon btn-action-delete" title="Eliminar">
+                                    <i class="fa-solid fa-trash small"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(producto.variants)}">
+                        <td colspan="7" class="text-center text-muted p-5">
+                            <i class="fa-solid fa-boxes-stacked mb-2 opacity-50"></i><br>
+                            Este producto aún no tiene variantes registradas.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <div class="card shadow-sm border-0">
-        <div class="card-header bg-white fw-bold">Añadir Nueva Variante</div>
+        <div class="card-header text-primary">
+            <i class="fa-solid fa-plus-circle me-1"></i> Añadir Nueva Variante
+        </div>
         <div class="card-body p-4">
             <form th:action="@{/admin/productos/{id}/variantes/guardar(id=${producto.id})}" th:object="${variantDto}" method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="imagenFile" class="form-label">Imagen</label>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="imagenFile" class="form-label text-muted small fw-bold">IMAGEN</label>
                         <input type="file" class="form-control" id="imagenFile" name="imagenFile">
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="sku" class="form-label">SKU</label>
-                        <input type="text" class="form-control" id="sku" th:field="*{sku}" required>
+                    <div class="col-md-4">
+                        <label for="sku" class="form-label text-muted small fw-bold">SKU <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="sku" th:field="*{sku}" required placeholder="Ej: PROD-001-RED">
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="color" class="form-label">Color (Opcional)</label>
-                        <input type="text" class="form-control" id="color" th:field="*{color}">
+                    <div class="col-md-4">
+                        <label for="color" class="form-label text-muted small fw-bold">COLOR</label>
+                        <input type="text" class="form-control" id="color" th:field="*{color}" placeholder="Opcional">
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="talla" class="form-label">Talla (Opcional)</label>
-                        <input type="text" class="form-control" id="talla" th:field="*{talla}">
+                    <div class="col-md-4">
+                        <label for="talla" class="form-label text-muted small fw-bold">TALLA</label>
+                        <input type="text" class="form-control" id="talla" th:field="*{talla}" placeholder="Opcional">
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="precio" class="form-label">Precio</label>
+                    <div class="col-md-4">
+                        <label for="precio" class="form-label text-muted small fw-bold">PRECIO <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <span class="input-group-text">S/</span>
+                            <span class="input-group-text bg-white text-muted">S/</span>
                             <input type="number" step="0.01" class="form-control" id="precio" th:field="*{precio}" required>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="stock" class="form-label">Stock</label>
+                    <div class="col-md-4">
+                        <label for="stock" class="form-label text-muted small fw-bold">STOCK <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="stock" th:field="*{stock}" required>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end mt-3">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-plus me-1"></i>
-                        Añadir Variante
+
+                <div class="d-flex justify-content-end mt-4 pt-2 border-top">
+                    <button type="submit" class="btn btn-techzone">
+                        <i class="fa-solid fa-plus me-1"></i> Añadir Variante
                     </button>
                 </div>
             </form>
         </div>
-        <div class="card-footer bg-light d-flex justify-content-end gap-2 p-3">
-            <a th:href="@{/admin/productos/editar/{id}(id=${producto.id})}" class="btn btn-secondary">
-                <i class="fa-solid fa-arrow-left me-1"></i>
-                Volver a Editar Producto
+
+        <div class="card-footer bg-light d-flex justify-content-between align-items-center p-3">
+            <a th:href="@{/admin/productos/editar/{id}(id=${producto.id})}" class="text-decoration-none text-muted">
+                <i class="fa-solid fa-arrow-left me-1"></i> Volver a editar producto
             </a>
-            <a th:href="@{/admin/productos}" class="btn btn-success">
-                <i class="fa-solid fa-check me-1"></i>
-                Finalizar y Volver a la Lista
+            <a th:href="@{/admin/productos}" class="btn btn-dark">
+                <i class="fa-solid fa-check me-1"></i> Finalizar y Salir
             </a>
         </div>
     </div>
 </main>
 
-<footer class="bg-dark text-white-50 text-center py-3 mt-5">
+<footer class="text-white-50 text-center py-4 mt-5">
     <div class="container">
         <small>© Copyright TechZone 2025. Panel de Administración.</small>
     </div>

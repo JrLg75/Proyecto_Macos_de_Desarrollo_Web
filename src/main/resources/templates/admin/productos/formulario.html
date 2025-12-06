@@ -8,51 +8,132 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+
+    <style>
+        /* =========================================
+           ESTILOS TECHZONE ADMIN
+           ========================================= */
+        :root {
+            --primary-color: #dc3545;
+            --dark-color: #000;
+            --light-color: #f8f9fa;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-color);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar-custom {
+            background-color: var(--dark-color) !important;
+            padding: 0.8rem 0;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+
+        /* Section Header */
+        .section-header {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            color: var(--dark-color);
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        /* Forms & Cards */
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+            background-color: #fff;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.15);
+        }
+
+        .btn-techzone {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .btn-techzone:hover {
+            background-color: #bb2d3b;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        footer {
+            background-color: var(--dark-color) !important;
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+    <div class="container-fluid container">
         <a class="navbar-brand fw-bold" th:href="@{/admin/dashboard}">
-            <i class="fa-solid fa-shield-halved me-2"></i>
-            TechZone Admin
+            <i class="fa-solid fa-shield-halved me-2 text-danger"></i>
+            TechZone <span class="fw-light text-white-50">Admin</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="adminNavbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item">
                     <a class="nav-link active" th:href="@{/admin/productos}">
-                        <i class="fa-solid fa-box-open me-1"></i>
-                        Productos
+                        <i class="fa-solid fa-box-open me-1"></i> Productos
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/ordenes}">
-                        <i class="fa-solid fa-receipt me-1"></i>
-                        Órdenes
+                        <i class="fa-solid fa-receipt me-1"></i> Órdenes
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/usuarios}">
-                        <i class="fa-solid fa-users me-1"></i>
-                        Usuarios
+                        <i class="fa-solid fa-users me-1"></i> Usuarios
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}" target="_blank">
-                        <i class="fa-solid fa-eye me-1"></i>
-                        Ver Sitio Público
+                    <a class="nav-link small" th:href="@{/}" target="_blank">
+                        <i class="fa-solid fa-eye me-1"></i> Ver Sitio Público
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">
-                        <i class="fa-solid fa-right-from-bracket me-1"></i>
-                        Cerrar Sesión
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link text-danger fw-bold" th:href="@{/logout}">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i> Cerrar Sesión
                     </a>
                 </li>
             </ul>
@@ -60,53 +141,60 @@
     </div>
 </nav>
 
-<main class="container mt-4">
+<main class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-9">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-dark text-white">
-                    <h2 th:if="${productDto.id == null}">
-                        <i class="fa-solid fa-plus me-2"></i>Crear Producto Base
+        <div class="col-md-8">
+
+            <div class="mb-4 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase text-danger fw-bold small mb-1 d-block" style="letter-spacing: 1px;">Gestión de Catálogo</span>
+                    <h2 class="section-header" th:if="${productDto.id == null}">
+                        Crear Nuevo Producto
                     </h2>
-                    <h2 th:unless="${productDto.id == null}">
-                        <i class="fa-solid fa-pencil me-2"></i>Editar Producto Base
+                    <h2 class="section-header" th:unless="${productDto.id == null}">
+                        Editar Producto
                     </h2>
                 </div>
-                <div class="card-body p-4">
+                <a th:if="${productDto.id != null}" th:href="@{/admin/productos/{id}/variantes(id=${productDto.id})}" class="btn btn-outline-dark btn-sm shadow-sm">
+                    <i class="fa-solid fa-tags me-1 text-primary"></i> Gestionar Variantes
+                </a>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5">
                     <form th:action="@{/admin/productos/guardar}" th:object="${productDto}" method="post">
                         <input type="hidden" th:field="*{id}"/>
 
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre del Producto</label>
-                            <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="4"></textarea>
+                        <div class="mb-4">
+                            <label for="nombre" class="form-label">Nombre del Producto <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="nombre" th:field="*{nombre}" required placeholder="Ej. iPhone 14 Pro Max">
                         </div>
 
-                        <div class="mb-3">
-                            <label for="categoriaId" class="form-label">ID de Categoría</label>
-                            <input type="number" class="form-control" id="categoriaId" th:field="*{categoriaId}" required>
-                        </div>
-
-                        <hr class="my-4">
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <a th:if="${productDto.id != null}" th:href="@{/admin/productos/{id}/variantes(id=${productDto.id})}" class="btn btn-info">
-                                    <i class="fa-solid fa-tags me-1"></i> Gestionar Variantes
-                                </a>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="categoriaId" class="form-label">Categoría (ID) <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fa-solid fa-layer-group text-muted"></i></span>
+                                    <input type="number" class="form-control" id="categoriaId" th:field="*{categoriaId}" required>
+                                </div>
+                                <div class="form-text">Ingrese el ID numérico de la categoría.</div>
                             </div>
+                        </div>
 
-                            <div>
-                                <a th:href="@{/admin/productos}" class="btn btn-secondary me-2">
-                                    <i class="fa-solid fa-xmark me-1"></i> Cancelar
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa-solid fa-save me-1"></i> Guardar Producto
-                                </button>
-                            </div>
+                        <div class="mb-4">
+                            <label for="descripcion" class="form-label">Descripción Detallada</label>
+                            <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="5" placeholder="Describa las características principales del producto..."></textarea>
+                        </div>
+
+                        <hr class="my-4 text-muted opacity-25">
+
+                        <div class="d-flex justify-content-end align-items-center gap-2">
+                            <a th:href="@{/admin/productos}" class="btn btn-light text-muted border">
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-techzone shadow-sm">
+                                <i class="fa-solid fa-save me-2"></i> Guardar Producto Base
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -115,7 +203,7 @@
     </div>
 </main>
 
-<footer class="bg-dark text-white-50 text-center py-3 mt-5">
+<footer class="text-white-50 text-center py-4 mt-5">
     <div class="container">
         <small>© Copyright TechZone 2025. Panel de Administración.</small>
     </div>

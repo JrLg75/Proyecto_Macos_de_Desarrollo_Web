@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechZone Perú - Mi Cuenta</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+
+    <style>
+        /* Estilos específicos para igualar la imagen Account.jpg */
+        .sidebar-menu a {
+            color: #666;
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+            font-size: 0.95rem;
+        }
+        .sidebar-menu a:hover {
+            color: #DB4444; /* Rojo TechZone */
+        }
+        .sidebar-menu .active-link {
+            color: #DB4444;
+            font-weight: 500;
+        }
+        .sidebar-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        .form-control-custom {
+            background-color: #F5F5F5; /* Fondo gris claro como en la foto */
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+        }
+        .breadcrumb-item a {
+            color: #999;
+            text-decoration: none;
+        }
+        .breadcrumb-item.active {
+            color: #000;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <!-- LOGO -->
+        <a class="navbar-brand fw-bold fs-4" th:href="@{/}" aria-label="TechZone - Ir a inicio">
+            TechZone
+        </a>
+
+        <!-- ICONOS SOLO EN MÓVILES -->
+        <div class="nav-icons-mobile d-flex d-lg-none align-items-center ms-auto">
+            <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+            <a th:href="@{/carrito}" aria-label="Carrito de compras"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
+
+        <!-- BOTÓN HAMBURGUESA -->
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- CONTENIDO DEL NAV -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <!-- MENÚ CENTRAL -->
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/nosotros}">Nosotros</a></li>
+
+                <!-- SI NO ESTÁ LOGEADO -->
+                <li class="nav-item" th:if="${nombreUsuario == null}">
+                    <a class="nav-link" th:href="@{/registro}">Regístrate</a>
+                </li>
+                <li class="nav-item" th:if="${nombreUsuario == null}">
+                    <a class="nav-link" th:href="@{/login}">Acceder</a>
+                </li>
+
+                <!-- SI ESTÁ LOGEADO -->
+                <li class="nav-item dropdown" th:if="${nombreUsuario != null}">
+                    <a class="nav-link dropdown-toggle text-danger fw-bold"
+                       href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user me-1"></i>
+                        <span th:text="${nombreUsuario}">Usuario</span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/perfil}">
+                            <i class="fa-regular fa-user me-2"></i> Gestionar Perfil</a></li>
+
+                        <li><a class="dropdown-item" th:href="@{/perfil/ordenes}">
+                            <i class="fa-solid fa-box-open me-2"></i> Mis Ordenes</a></li>
+
+                        <li><a class="dropdown-item" th:href="@{/perfil/cancelaciones}">
+                            <i class="fa-solid fa-ban me-2"></i> Mis Cancelaciones</a></li>
+
+                        <li><a class="dropdown-item" th:href="@{/perfil/reviews}">
+                            <i class="fa-regular fa-star me-2"></i> Mis Reviews</a></li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button class="dropdown-item text-danger" type="submit">
+                                    <i class="fa-solid fa-right-from-bracket me-2"></i> Salir
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <!-- BARRA DE BÚSQUEDA -->
+            <form class="d-flex search-form ms-lg-3 me-lg-3 mb-3 mb-lg-0"
+                  role="search" th:action="@{/buscar}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="q"
+                           placeholder="¿Qué estás buscando?" aria-label="Buscar">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- ICONOS SOLO EN ESCRITORIO -->
+            <div class="nav-icons d-none d-lg-flex align-items-center">
+                <a href="#" aria-label="Lista de deseos"><i class="fa-regular fa-heart"></i></a>
+                <a th:href="@{/carrito}" aria-label="Carrito de compras"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Mi Cuenta</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="sidebar-menu">
+                <div class="sidebar-title">Gestionar Mi Cuenta</div>
+                <ul class="list-unstyled ms-3">
+                    <li><a th:href="@{/perfil}" class="active-link">Mi perfil</a></li>
+                    <li><a href="#">Direcciones</a></li>
+                    <li><a href="#">Mis Metodos de Pago</a></li>
+                </ul>
+
+                <div class="sidebar-title">Mis Pedidos</div>
+                <ul class="list-unstyled ms-3">
+                    <li><a th:href="@{/perfil/ordenes}">Mis Devoluciones</a></li>
+                    <li><a href="#">Mis Cancelaciones</a></li>
+                </ul>
+
+                <div class="sidebar-title">Mi Lista de Deseos</div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="text-danger mb-4">Edita tu Perfil</h4>
+
+                <form th:action="@{/perfil/actualizar}" method="post" th:object="${cliente}">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Primer Nombre</label>
+                            <input type="text" class="form-control form-control-custom" id="nombre" th:field="*{nombre}" placeholder="Juan">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control form-control-custom" id="apellido" th:field="*{apellido}" placeholder="Quispe">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control form-control-custom" id="email" th:field="*{email}" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control form-control-custom" id="direccion" name="direccion" placeholder="Av. Principal 123, Lima">
+                        </div>
+                    </div>
+
+                    <h5 class="mb-3 mt-2">Cambiar Contraseña</h5>
+
+                    <div class="mb-3">
+                        <input type="password" class="form-control form-control-custom" name="currentPassword" placeholder="Contraseña Actual">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control form-control-custom" name="newPassword" placeholder="Nueva Contraseña">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control form-control-custom" name="confirmPassword" placeholder="Confirmar Nueva Contraseña">
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center mt-4 gap-3">
+                        <a th:href="@{/}" class="text-secondary text-decoration-none">Cancelar</a>
+                        <button type="submit" class="btn btn-danger px-4 py-2">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-black text-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <h2 class="h5 fw-bold mb-3">TechZone</h2>
+                <p class="fw-bold">Regístrate Ahora</p>
+                <p class="text-muted">Obtenga un 10% de descuento en su primer pedido</p>
+
+                <form class="d-flex" th:action="@{/suscribirse}" method="post">
+                    <label for="footer-email" class="visually-hidden">Ingresa tu email</label>
+                    <input type="email" id="footer-email" name="email" class="form-control rounded-0 border-0 bg-secondary text-white" placeholder="Enter your email">
+                    <button class="btn btn-danger rounded-0" type="submit" aria-label="Suscribirse">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Soporte</h3>
+                <ul class="list-unstyled text-muted">
+                    <li>Av Peru 1722 A-25</li>
+                    <li>exclusive@gmail.com</li>
+                    <li>+88015-88888-9999</li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Cuenta</h3>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/registro}" class="text-muted text-decoration-none">Acceder / Registrarse</a></li>
+                    <li><a th:href="@{/carrito}" class="text-muted text-decoration-none">Carrito</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Lista de Deseos</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Compras</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="h5 fw-bold mb-3">Enlaces</h3>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-muted text-decoration-none">Política de privacidad</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">Condiciones de uso</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none">FAQ</a></li>
+                    <li><a th:href="@{/contacto}" class="text-muted text-decoration-none">Contacto</a></li>
+                </ul>
+                <div class="social-icons mt-3">
+                    <a href="#" class="text-white me-3" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-3" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-3" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4 text-muted border-top pt-3 border-secondary">
+            <small>© Copyright TechZone 2025. All right reserved</small>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

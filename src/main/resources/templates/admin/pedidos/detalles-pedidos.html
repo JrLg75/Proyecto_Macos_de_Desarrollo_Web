@@ -2,149 +2,296 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="'Detalles Pedido #' + ${pedido.numeroPedido} + ' - TechZone Admin'">Detalles Pedido - TechZone Admin</title>
+    <title th:text="'Pedido #' + ${pedido.numeroPedido} + ' - TechZone Admin'">Detalles Pedido</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+
+    <style>
+        /* =========================================
+           ESTILOS TECHZONE ADMIN
+           ========================================= */
+        :root {
+            --primary-color: #dc3545;
+            --dark-color: #000;
+            --light-color: #f8f9fa;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-color);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar-custom {
+            background-color: var(--dark-color) !important;
+            padding: 0.8rem 0;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+
+        .section-header {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            color: var(--dark-color);
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+            background-color: #fff;
+        }
+
+        .table-custom thead th {
+            background-color: #fff;
+            color: #6c757d;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-bottom: 2px solid #eee;
+        }
+
+        .table-custom tbody td {
+            vertical-align: middle;
+            padding: 1rem 0.5rem;
+        }
+
+        /* Detalles específicos */
+        .info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6c757d;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        footer {
+            background-color: var(--dark-color) !important;
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" th:href="@{/admin/dashboard}">
-            <i class="fa-solid fa-shield-halved me-2"></i> TechZone Admin
+            <i class="fa-solid fa-shield-halved me-2 text-danger"></i>
+            TechZone <span class="fw-light text-white-50">Admin</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="adminNavbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/productos}">
+                    <a class="nav-link" th:classappend="${currentUri == '/admin/dashboard' ? 'active' : ''}"
+                       th:href="@{/admin/dashboard}">
+                        <i class="fa-solid fa-chart-pie me-1"></i> Sentimiento
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${currentUri == '/admin/ventas' ? 'active' : ''}"
+                       th:href="@{/admin/ventas}">
+                        <i class="fa-solid fa-dollar-sign me-1"></i> Ventas
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${currentUri != null && currentUri.startsWith('/admin/productos') ? 'active' : ''}"
+                       th:href="@{/admin/productos}">
                         <i class="fa-solid fa-box-open me-1"></i> Productos
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/admin/pedidos}">
+                    <a class="nav-link" th:classappend="${currentUri != null && currentUri.startsWith('/admin/pedidos') ? 'active' : ''}"
+                       th:href="@{/admin/pedidos}">
                         <i class="fa-solid fa-receipt me-1"></i> Pedidos
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/usuarios}">
+                    <a class="nav-link" th:classappend="${currentUri != null && currentUri.startsWith('/admin/usuarios') ? 'active' : ''}"
+                       th:href="@{/admin/usuarios}">
                         <i class="fa-solid fa-users me-1"></i> Usuarios
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}" target="_blank"><i class="fa-solid fa-eye me-1"></i> Ver Sitio</a>
+                    <a class="nav-link small" th:href="@{/}" target="_blank">
+                        <i class="fa-solid fa-eye me-1"></i> Ver Sitio Público
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket me-1"></i> Salir</a>
+                <li class="nav-item ms-lg-2">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <button type="submit" class="nav-link btn btn-link text-danger fw-bold" style="text-decoration: none;">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i> Salir
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<main class="container mt-4">
+<main class="container mt-5">
+
     <div th:if="${pedido}">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1><i class="fa-solid fa-receipt me-2"></i> Detalles del Pedido #<span th:text="${pedido.numeroPedido}">TZ1001</span></h1>
-            <a th:href="@{/admin/pedidos}" class="btn btn-secondary">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver a la Lista
-            </a>
+            <div>
+                <a th:href="@{/admin/pedidos}" class="text-decoration-none text-muted small mb-1 d-block">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Volver a Pedidos
+                </a>
+                <h2 class="section-header">
+                    Detalles del Pedido <span class="text-danger">#<span th:text="${pedido.numeroPedido}">TZ1001</span></span>
+                </h2>
+            </div>
+
+            <span class="badge rounded-pill px-4 py-2 fs-6 shadow-sm"
+                  th:classappend="${#strings.equals(pedido.estado, 'PENDIENTE')} ? 'bg-warning text-dark' : (${#strings.equals(pedido.estado, 'ENVIADO')} ? 'bg-info text-dark' : (${#strings.equals(pedido.estado, 'ENTREGADO')} ? 'bg-success' : 'bg-secondary'))">
+                <i class="fa-solid fa-circle me-1 small"></i> <span th:text="${pedido.estado}">PENDIENTE</span>
+            </span>
         </div>
 
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-dark text-white">
-                <i class="fa-solid fa-circle-info me-2"></i> Información General
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <strong>Número de Pedido:</strong> <span th:text="${pedido.numeroPedido}">#TZ1001</span>
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <span><i class="fa-solid fa-boxes-stacked me-2 text-primary"></i>Productos</span>
+                        <span class="badge bg-light text-dark border" th:text="${#lists.size(pedido.detalles)} + ' Items'">3 Items</span>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Fecha del Pedido:</strong> <span th:text="${#temporals.format(pedido.fechaPedido, 'dd/MM/yyyy HH:mm')}">--</span>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-custom align-middle mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="ps-4">Producto</th>
+                                    <th>SKU</th>
+                                    <th class="text-center">Cant.</th>
+                                    <th class="text-end">P. Unit</th>
+                                    <th class="text-end pe-4">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="detalle : ${pedido.detalles}">
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <div class="border rounded p-1 me-3 bg-light" style="width: 48px; height: 48px; flex-shrink: 0;">
+                                                <img th:if="${detalle.variante?.imagenPrincipalUrl}"
+                                                     th:src="@{/uploads/{filename}(filename=${detalle.variante.imagenPrincipalUrl})}"
+                                                     alt="img" style="width: 100%; height: 100%; object-fit: cover;">
+                                                <div th:unless="${detalle.variante?.imagenPrincipalUrl}" class="d-flex w-100 h-100 align-items-center justify-content-center text-muted small">
+                                                    <i class="fa-regular fa-image"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="fw-medium text-dark" th:text="${detalle.variante?.producto?.nombre}">Nombre</div>
+                                                <div class="text-muted small">
+                                                    <span th:if="${detalle.variante?.color}" th:text="${detalle.variante.color}">Color</span>
+                                                    <span th:if="${detalle.variante?.color != null && detalle.variante?.talla != null}">|</span>
+                                                    <span th:if="${detalle.variante?.talla}" th:text="${detalle.variante.talla}">Talla</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="small text-muted font-monospace" th:text="${detalle.variante?.sku}">SKU</td>
+                                    <td class="text-center fw-bold" th:text="${detalle.cantidad}">1</td>
+                                    <td class="text-end text-muted small" th:text="${#numbers.formatCurrency(detalle.precioUnitario)}">S/ 0.00</td>
+                                    <td class="text-end pe-4 fw-bold text-dark" th:text="${#numbers.formatCurrency(detalle.precioUnitario * detalle.cantidad)}">S/ 0.00</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(pedido.detalles)}">
+                                    <td colspan="5" class="text-center text-muted p-4">Sin detalles.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Cliente:</strong>
-                        <span th:text="${pedido.cliente?.nombre + ' ' + pedido.cliente?.apellido}">Nombre Cliente</span>
-                        (<span th:text="${pedido.cliente?.email}">email@cliente.com</span>)
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Estado:</strong>
-                        <span class="badge"
-                              th:classappend="${#strings.equals(pedido.estado, 'PENDIENTE')} ? 'bg-warning text-dark' : (${#strings.equals(pedido.estado, 'ENVIADO')} ? 'bg-info text-dark' : (${#strings.equals(pedido.estado, 'ENTREGADO')} ? 'bg-success' : 'bg-secondary'))"
-                              th:text="${pedido.estado}">PENDIENTE</span>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <strong>Dirección de Envío:</strong>
-                        <p class="mb-0" th:text="${pedido.direccionEnvio ?: 'No especificada'}">Calle Falsa 123, Distrito, Ciudad</p>
-                    </div>
-                    <div class="col-md-12 fw-bold fs-5 text-end">
-                        <strong>Total del Pedido:</strong>
-                        <span class="text-danger" th:text="${#numbers.formatCurrency(pedido.total)}">S/ 0.00</span>
+                    <div class="card-footer bg-light text-end p-3">
+                        <span class="text-muted text-uppercase small fw-bold me-3">Total del Pedido:</span>
+                        <span class="fs-4 fw-bold text-danger" th:text="${#numbers.formatCurrency(pedido.total)}">S/ 0.00</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-dark text-white">
-                <i class="fa-solid fa-boxes-stacked me-2"></i> Productos Incluidos
-            </div>
-            <div class="card-body p-0"> <table class="table table-hover align-middle mb-0"> <thead>
-            <tr>
-                <th class="ps-3">Producto (Variante)</th>
-                <th>SKU</th>
-                <th class="text-center">Cantidad</th>
-                <th class="text-end">Precio Unit.</th>
-                <th class="text-end pe-3">Subtotal</th>
-            </tr>
-            </thead>
-                <tbody>
-                <tr th:each="detalle : ${pedido.detalles}">
-                    <td class="ps-3">
-                        <div class="d-flex align-items-center">
-                            <img th:if="${detalle.variante?.imagenPrincipalUrl}"
-                                 th:src="@{/uploads/{filename}(filename=${detalle.variante.imagenPrincipalUrl})}"
-                                 alt="img" class="me-2" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
-                            <div>
-                                <strong th:text="${detalle.variante?.producto?.nombre}">Nombre Producto</strong><br>
-                                <small class="text-muted"
-                                       th:text="${detalle.variante?.sku} +
-                                                    (${detalle.variante?.color != null ? ' - Color: ' + detalle.variante.color : ''}) +
-                                                    (${detalle.variante?.talla != null ? ' - Talla: ' + detalle.variante.talla : ''})">
-                                    SKU - Detalles Variante
-                                </small>
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3">
+                        <i class="fa-solid fa-circle-info me-2 text-primary"></i>Información del Cliente
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <div class="info-label">Cliente</div>
+                            <div class="d-flex align-items-center mt-2">
+                                <div class="bg-light rounded-circle p-2 me-2 text-muted"><i class="fa-solid fa-user"></i></div>
+                                <div>
+                                    <div class="info-value" th:text="${pedido.cliente?.nombre + ' ' + pedido.cliente?.apellido}">Nombre</div>
+                                    <div class="small text-muted" th:text="${pedido.cliente?.email}">email</div>
+                                </div>
                             </div>
                         </div>
-                    </td>
-                    <td th:text="${detalle.variante?.sku}">SKU001</td>
-                    <td class="text-center" th:text="${detalle.cantidad}">1</td>
-                    <td class="text-end" th:text="${#numbers.formatCurrency(detalle.precioUnitario)}">S/ 0.00</td>
-                    <td class="text-end pe-3 fw-medium" th:text="${#numbers.formatCurrency(detalle.precioUnitario * detalle.cantidad)}">S/ 0.00</td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(pedido.detalles)}">
-                    <td colspan="5" class="text-center text-muted p-4">
-                        Este pedido no tiene detalles.
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+
+                        <div class="mb-4">
+                            <div class="info-label">Fecha de Compra</div>
+                            <div class="info-value">
+                                <i class="fa-regular fa-calendar me-2 text-muted small"></i>
+                                <span th:text="${#temporals.format(pedido.fechaPedido, 'dd MMMM yyyy')}">27 Oct 2025</span>
+                            </div>
+                            <div class="small text-muted ps-4" th:text="${#temporals.format(pedido.fechaPedido, 'HH:mm')}">14:30</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">Dirección de Envío</div>
+                            <div class="info-value d-flex mt-2">
+                                <i class="fa-solid fa-map-location-dot me-2 text-muted mt-1"></i>
+                                <span th:text="${pedido.direccionEnvio ?: 'No especificada'}">Dirección</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-dark"><i class="fa-solid fa-print me-2"></i>Imprimir Factura</button>
+                </div>
             </div>
         </div>
     </div>
-    <div th:unless="${pedido}" class="alert alert-warning text-center">
-        El pedido solicitado no fue encontrado.
-        <a th:href="@{/admin/pedidos}" class="alert-link">Volver a la lista</a>.
+
+    <div th:unless="${pedido}" class="alert alert-light border shadow-sm text-center py-5">
+        <i class="fa-solid fa-circle-exclamation fa-3x text-warning mb-3"></i>
+        <h4 class="text-muted">Pedido no encontrado</h4>
+        <a th:href="@{/admin/pedidos}" class="btn btn-primary mt-3">Volver a la lista</a>
     </div>
 </main>
 
-<footer class="bg-dark text-white-50 text-center py-3 mt-5">
+<footer class="text-white-50 text-center py-4 mt-5">
     <div class="container">
         <small>© Copyright TechZone 2025. Panel de Administración.</small>
     </div>

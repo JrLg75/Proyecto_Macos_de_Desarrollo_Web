@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Órdenes - TechZone Perú</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/EstiloBase.css}">
+
+    <style>
+        /* =============================================
+           ESTILOS COPIADOS DE PERFIL.HTML
+           ============================================= */
+        .sidebar-menu a {
+            color: #666;
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .sidebar-menu a:hover {
+            color: #DB4444; /* Rojo TechZone */
+        }
+        .sidebar-menu .active-link {
+            color: #DB4444;
+            font-weight: 500;
+        }
+        .sidebar-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        .breadcrumb-item a {
+            color: #999;
+            text-decoration: none;
+        }
+        .breadcrumb-item.active {
+            color: #000;
+        }
+
+        /* =============================================
+           ESTILOS ESPECÍFICOS PARA LA TABLA DE ÓRDENES
+           ============================================= */
+        .table-orders {
+            margin-bottom: 0;
+        }
+        .table-orders thead th {
+            background-color: #f9f9f9;
+            border-bottom: 2px solid #eee;
+            color: #555;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            padding: 1rem;
+        }
+        .table-orders tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            color: #333;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        .table-orders tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Badges de Estado */
+        .status-badge {
+            padding: 0.4em 0.8em;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        /* Colores según estado (puedes ajustar según tus nombres de estado) */
+        .status-PENDIENTE { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .status-ENVIADO { background-color: #cff4fc; color: #055160; border: 1px solid #b6effb; }
+        .status-ENTREGADO { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
+        .status-CANCELADO { background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-3 border-bottom">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a class="navbar-brand fw-bold fs-4" th:href="@{/}">TechZone</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/nosotros}">Nosotros</a></li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="dropdown" th:if="${cliente != null}">
+                    <a class="nav-link dropdown-toggle text-danger fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-user me-1"></i> <span th:text="${cliente.nombre}">Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                        <li><a class="dropdown-item" th:href="@{/perfil}"><i class="fa-regular fa-user me-2"></i> Mi Perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{/perfil/ordenes}"><i class="fa-solid fa-box-open me-2"></i> Mis Órdenes</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button class="dropdown-item text-danger" type="submit"><i class="fa-solid fa-right-from-bracket me-2"></i> Salir</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <a th:href="@{/carrito}" class="text-dark position-relative">
+                    <i class="fa-solid fa-cart-shopping fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+
+    <nav aria-label="breadcrumb" class="mb-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Inicio</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/perfil}">Mi Cuenta</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Mis Órdenes</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="sidebar-menu">
+                <div class="sidebar-title">Gestionar Mi Cuenta</div>
+                <ul class="list-unstyled ms-3">
+                    <li><a th:href="@{/perfil}">Mi perfil</a></li>
+                    <li><a href="#">Direcciones</a></li>
+                    <li><a href="#">Mis Metodos de Pago</a></li>
+                </ul>
+
+                <div class="sidebar-title">Mis Pedidos</div>
+                <ul class="list-unstyled ms-3">
+                    <li><a th:href="@{/perfil/ordenes}" class="active-link">Mis Órdenes</a></li>
+                    <li><a href="#">Mis Devoluciones</a></li>
+                    <li><a href="#">Mis Cancelaciones</a></li>
+                </ul>
+
+                <div class="sidebar-title">Mi Lista de Deseos</div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="text-danger mb-4">Historial de Pedidos</h4>
+
+                    <div th:if="${#lists.isEmpty(pedidos)}" class="text-center py-5">
+                        <div class="mb-3 text-muted opacity-25">
+                            <i class="fa-solid fa-bag-shopping fa-4x"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal">Aún no has realizado ninguna compra</h5>
+                        <p class="text-muted small mb-4">Explora nuestro catálogo y encuentra lo que buscas.</p>
+                        <a th:href="@{/productos}" class="btn btn-danger px-4">Ir a la Tienda</a>
+                    </div>
+
+                    <div th:unless="${#lists.isEmpty(pedidos)}" class="table-responsive">
+                        <table class="table table-orders table-hover align-middle">
+                            <thead>
+                            <tr>
+                                <th>Nº Pedido</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th class="text-end">Total</th>
+                                <th class="text-center">Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="pedido : ${pedidos}">
+                                <td>
+                                    <span class="fw-bold text-dark" th:text="${pedido.numeroPedido}">#TZ-1001</span>
+                                </td>
+                                <td>
+                                    <div class="text-muted small">
+                                        <i class="fa-regular fa-calendar me-1"></i>
+                                        <span th:text="${#temporals.format(pedido.fechaPedido, 'dd/MM/yyyy')}">01/01/2025</span>
+                                    </div>
+                                </td>
+                                <td>
+                                        <span class="status-badge"
+                                              th:classappend="'status-' + ${pedido.estado}"
+                                              th:text="${pedido.estado}">PENDIENTE</span>
+                                </td>
+                                <td class="text-end fw-bold text-dark" th:text="${#numbers.formatCurrency(pedido.total)}">
+                                    S/ 150.00
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-secondary" title="Ver Detalles">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-black text-white py-5 mt-auto">
+    <div class="container text-center">
+        <small>© Copyright TechZone 2025. All rights reserved</small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,11 +1,11 @@
 package com.techzone.peru.repository;
 
+import com.techzone.peru.model.entity.Cliente; // <-- Importar
 import com.techzone.peru.model.entity.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -14,6 +14,9 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     Optional<Pedido> findByNumeroPedido(String numeroPedido);
 
-    // --- ¡AÑADIR ESTE MÉTODO! ---
     List<Pedido> findAllByFechaPedidoBetween(OffsetDateTime start, OffsetDateTime end);
+
+    // --- ¡AÑADIR ESTE MÉTODO! ---
+    // Busca todos los pedidos de un cliente específico, ordenados por fecha descendente
+    List<Pedido> findByClienteOrderByFechaPedidoDesc(Cliente cliente);
 }
